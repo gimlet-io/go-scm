@@ -175,6 +175,7 @@ type (
 		Before  string `json:"before"`
 		After   string `json:"after"`
 		Compare string `json:"compare"`
+		Deleted bool `json:"deleted"`
 		Head    struct {
 			ID        string    `json:"id"`
 			TreeID    string    `json:"tree_id"`
@@ -296,6 +297,7 @@ func convertPushHook(src *pushHook) *scm.PushHook {
 		BaseRef: src.BaseRef,
 		Before:  src.Before,
 		After:   src.After,
+		Deleted: src.Deleted,
 		Commit: scm.Commit{
 			Sha:     src.After,
 			Message: src.Head.Message,

@@ -32,6 +32,7 @@ type (
 		Repo    Repository
 		Before  string
 		After   string
+		Deleted bool
 		Commit  Commit
 		Sender  User
 	}
