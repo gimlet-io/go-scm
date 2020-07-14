@@ -9,8 +9,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/drone/go-scm/scm/driver/github"
-	"github.com/drone/go-scm/scm/transport"
+	"github.com/gimlet-io/go-scm/scm/driver/github"
+	"github.com/gimlet-io/go-scm/scm/transport"
 )
 
 func TestGitLab(t *testing.T) {

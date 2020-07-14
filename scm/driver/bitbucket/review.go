@@ -7,7 +7,7 @@ package bitbucket
 import (
 	"context"
 
-	"github.com/drone/go-scm/scm"
+	"github.com/gimlet-io/go-scm/scm"
 )
 
 type reviewService struct {

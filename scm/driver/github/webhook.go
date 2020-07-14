@@ -12,9 +12,9 @@ import (
 	"net/http"
 	"regexp"
 
-	"github.com/drone/go-scm/scm"
-	"github.com/drone/go-scm/scm/driver/internal/hmac"
-	"github.com/drone/go-scm/scm/driver/internal/null"
+	"github.com/gimlet-io/go-scm/scm"
+	"github.com/gimlet-io/go-scm/scm/driver/internal/hmac"
+	"github.com/gimlet-io/go-scm/scm/driver/internal/null"
 )
 
 type webhookService struct {
@@ -43,7 +43,7 @@ func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhoo
 		hook, err = s.parseDeploymentHook(data)
 	// case "pull_request_review_comment":
 	// case "issues":
-	// case "issue_comment":
+	//
 	default:
 		return nil, scm.ErrUnknownEvent
 	}
@@ -294,7 +294,7 @@ func convertPushHook(src *pushHook) *scm.PushHook {
 		},
 		Sender: *convertUser(&src.Sender),
 	}
-	// fix https://github.com/drone/go-scm/issues/8
+	// fix https://github.com/gimlet-io/go-scm/issues/8
 	if scm.IsTag(dst.Ref) && src.Head.ID != "" {
 		dst.Commit.Sha = src.Head.ID
 		dst.After = src.Head.ID

@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/drone/go-scm/scm"
+	"github.com/gimlet-io/go-scm/scm"
 )
 
 type contentService struct {

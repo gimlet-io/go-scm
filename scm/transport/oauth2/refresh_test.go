@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/drone/go-scm/scm"
+	"github.com/gimlet-io/go-scm/scm"
 	"github.com/google/go-cmp/cmp"
 	"github.com/h2non/gock"
 )

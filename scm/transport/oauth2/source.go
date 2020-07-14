@@ -7,7 +7,7 @@ package oauth2
 import (
 	"context"
 
-	"github.com/drone/go-scm/scm"
+	"github.com/gimlet-io/go-scm/scm"
 )
 
 // StaticTokenSource returns a TokenSource that always

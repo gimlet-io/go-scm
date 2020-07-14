@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/drone/go-scm/scm"
+	"github.com/gimlet-io/go-scm/scm"
 )
 
 type repositoryService struct {

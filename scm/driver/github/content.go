@@ -8,7 +8,7 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-	"github.com/drone/go-scm/scm"
+	"github.com/gimlet-io/go-scm/scm"
 )
 
 type contentService struct {
