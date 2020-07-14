@@ -68,6 +68,7 @@ type (
 		Push               bool
 		ReviewComment      bool
 		Tag                bool
+		Status             bool
 	}
 
 	// Status represents a commit status.

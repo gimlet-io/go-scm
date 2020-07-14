@@ -281,6 +281,9 @@ func convertHookEvents(from scm.HookEvents) []string {
 	if from.IssueComment {
 		events = append(events, "issue:comment_created")
 	}
+	if from.Status {
+		events = append(events, "status")
+	}
 	return events
 }
 

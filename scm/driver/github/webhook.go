@@ -44,6 +44,8 @@ func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhoo
 	// case "pull_request_review_comment":
 	// case "issues":
 	//
+	case "status":
+		hook, err = s.parseStatusHook(data)
 	default:
 		return nil, scm.ErrUnknownEvent
 	}
@@ -145,6 +147,12 @@ func (s *webhookService) parsePullRequestHook(data []byte) (scm.Webhook, error) 
 		dst.Action = scm.ActionSync
 	}
 	return dst, nil
+}
+
+func (s *webhookService) parseStatusHook(data []byte) (scm.Webhook, error) {
+	dst := new(statusHook)
+	err := json.Unmarshal(data, dst)
+	return convertStatusHook(dst), err
 }
 
 //
@@ -252,6 +260,29 @@ type (
 		} `json:"deployment"`
 		Repository repository `json:"repository"`
 		Sender     user       `json:"sender"`
+	}
+
+	statusHook struct {
+		SHA        string `json:"sha"`
+		State      string `json:"state"`
+		Desc       string `json:"description"`
+		Target     string `json:"target_url"`
+		Context    string `json:"context"`
+		Repository struct {
+			ID    int64 `json:"id"`
+			Owner struct {
+				Login     string `json:"login"`
+				AvatarURL string `json:"avatar_url"`
+			} `json:"owner"`
+			Name          string `json:"name"`
+			FullName      string `json:"full_name"`
+			Private       bool   `json:"private"`
+			Fork          bool   `json:"fork"`
+			HTMLURL       string `json:"html_url"`
+			SSHURL        string `json:"ssh_url"`
+			CloneURL      string `json:"clone_url"`
+			DefaultBranch string `json:"default_branch"`
+		} `json:"repository"`
 	}
 )
 
@@ -395,6 +426,29 @@ func convertDeploymentHook(src *deploymentHook) *scm.DeployHook {
 		dst.Ref.Path = scm.ExpandRef(dst.Ref.Path, "refs/tags/")
 	} else {
 		dst.Ref.Path = scm.ExpandRef(dst.Ref.Path, "refs/heads/")
+	}
+	return dst
+}
+
+func convertStatusHook(src *statusHook) *scm.StatusHook {
+	dst := &scm.StatusHook{
+		SHA: src.SHA,
+		Status: scm.Status{
+			State:  convertState(src.State),
+			Desc:   src.Desc,
+			Label:  src.Context,
+			Target: src.Target,
+		},
+		Repo: scm.Repository{
+			ID:        fmt.Sprint(src.Repository.ID),
+			Namespace: src.Repository.Owner.Login,
+			Name:      src.Repository.Name,
+			Branch:    src.Repository.DefaultBranch,
+			Private:   src.Repository.Private,
+			Clone:     src.Repository.CloneURL,
+			CloneSSH:  src.Repository.SSHURL,
+			Link:      src.Repository.HTMLURL,
+		},
 	}
 	return dst
 }

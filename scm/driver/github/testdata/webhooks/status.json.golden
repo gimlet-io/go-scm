@@ -1,0 +1,23 @@
+{
+  "SHA": "00e1ed7b5a49e70d5f241768e52b32add7148ff0",
+  "Status": {
+    "State": 3,
+    "Label": "gitops/staging/template-update-jul-13-10-58-27",
+    "Desc": "[Gimlet] 00e1ed7@laszlocph/demo-app/staging - GitOps update due to adhoc deploy",
+    "Target": "https://github.com/laszlocph/gitops-staging/commit/1df82168deeeaa6516668a1c679b8a2ddd019805",
+    "Title": ""
+  },
+  "Repo": {
+    "ID": "240327614",
+    "Namespace": "laszlocph",
+    "Name": "demo-app",
+    "Perm": null,
+    "Branch": "master",
+    "Private": true,
+    "Clone": "https://github.com/laszlocph/demo-app.git",
+    "CloneSSH": "git@github.com:laszlocph/demo-app.git",
+    "Link": "https://github.com/laszlocph/demo-app",
+    "Created": "0001-01-01T00:00:00Z",
+    "Updated": "0001-01-01T00:00:00Z"
+  }
+}

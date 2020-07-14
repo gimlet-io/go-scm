@@ -114,6 +114,12 @@ type (
 		Task      string
 	}
 
+	StatusHook struct {
+		SHA    string
+		Status Status
+		Repo   Repository
+	}
+
 	// SecretFunc provides the Webhook parser with the
 	// secret key used to validate webhook authenticity.
 	SecretFunc func(webhook Webhook) (string, error)
@@ -139,3 +145,4 @@ func (h *IssueCommentHook) Repository() Repository       { return h.Repo }
 func (h *PullRequestHook) Repository() Repository        { return h.Repo }
 func (h *PullRequestCommentHook) Repository() Repository { return h.Repo }
 func (h *ReviewCommentHook) Repository() Repository      { return h.Repo }
+func (h *StatusHook) Repository() Repository             { return h.Repo }
