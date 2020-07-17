@@ -61,6 +61,11 @@ type hooks struct {
 	Values []*hook `json:"values"`
 }
 
+type statuses struct {
+	pagination
+	Values []*status `json:"values"`
+}
+
 type hook struct {
 	ID          int      `json:"id"`
 	Name        string   `json:"name"`
@@ -191,7 +196,11 @@ func (s *repositoryService) ListHooks(ctx context.Context, repo string, opts scm
 
 // ListStatus returns a list of commit statuses.
 func (s *repositoryService) ListStatus(ctx context.Context, repo, ref string, opts scm.ListOptions) ([]*scm.Status, *scm.Response, error) {
-	return nil, nil, scm.ErrNotSupported
+	path := fmt.Sprintf("/rest/build-status/1.0/commits/%s?%s", ref, encodeListOptions(opts))
+	out := new(statuses)
+	res, err := s.client.do(ctx, "GET", path, nil, out)
+	copyPagination(out.pagination, res)
+	return convertStatusList(out), res, err
 }
 
 // CreateHook creates a new repository webhook.
@@ -296,6 +305,14 @@ func convertHookList(from *hooks) []*scm.Hook {
 	return to
 }
 
+func convertStatusList(from *statuses) []*scm.Status {
+	to := []*scm.Status{}
+	for _, v := range from.Values {
+		to = append(to, convertStatus(v))
+	}
+	return to
+}
+
 func convertHook(from *hook) *scm.Hook {
 	return &scm.Hook{
 		ID:     strconv.Itoa(from.ID),
@@ -303,6 +320,16 @@ func convertHook(from *hook) *scm.Hook {
 		Active: from.Active,
 		Target: from.URL,
 		Events: from.Events,
+	}
+}
+
+func convertStatus(from *status) *scm.Status {
+	return &scm.Status{
+		State:  convertState(from.State),
+		Label:  from.Key,
+		Title:  from.Name,
+		Desc:   from.Desc,
+		Target: from.URL,
 	}
 }
 
