@@ -234,6 +234,9 @@ func convertHookEvents(from scm.HookEvents) []string {
 	if from.Deployment {
 		events = append(events, "deployment")
 	}
+	if from.Status {
+		events = append(events, "status")
+	}
 	return events
 }
 
